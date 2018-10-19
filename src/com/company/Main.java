@@ -3,13 +3,28 @@ package com.company;
 import java.util.Scanner;
 
 public class Main {
-    public static int validarEntero(Scanner sc) {
-        int numeroValidado;
-        while (!sc.hasNextInt()) {
-            System.out.print("¡Introduce un valor numérico entero! ");
+    public static double validador(int opcion) {
+        double validado = 0;
+        Scanner sc = new Scanner(System.in);
+        switch (opcion) {
+            case 0: {
+                while (!sc.hasNextInt()) {
+                    System.out.print("¡Por favor introduce un número entero! ");
+                    sc.next();
+                }
+                validado = sc.nextDouble();
+            }
+            break;
+            case 1: {
+                while (!sc.hasNextDouble()) {
+                    System.out.print("¡Por favor introduce un número decimal! ");
+                    sc.next();
+                }
+                validado = sc.nextDouble();
+            }
+            break;
         }
-        numeroValidado = sc.nextInt();
-        return numeroValidado;
+        return validado;
     }
 
     public static boolean validarNumero(int numero) {
@@ -153,15 +168,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int numero, numeroCifras;
+        int numero, numeroCifras, unidades, decenas;
         char primeraCifra, segundaCifra;
         Scanner sc = new Scanner(System.in);
         System.out.println("¡Vamos a transformar un valor numérico a uno alfabético!");
         System.out.print("Introduce un número: ");
-        numero = validarEntero(sc);
+        numero = (int) validador(0);
         while (!validarNumero(numero)) {
             System.out.print("¡Introduce un número entre 0 y 99! ");
-            numero = validarEntero(sc);
+            numero = (int) validador(0);
         }
         sc.close();
         numeroCifras = String.valueOf(numero).length();
@@ -173,7 +188,11 @@ public class Main {
         } else {
             primeraCifra = String.valueOf(numero).charAt(0);
             segundaCifra = String.valueOf(numero).charAt(1);
-            System.out.printf("%s y %s\n", decenas(primeraCifra), unidades(segundaCifra));
+            if (segundaCifra == '0') {
+                System.out.printf("%s\n", decenas(primeraCifra));
+            } else {
+                System.out.printf("%s y %s\n", decenas(primeraCifra), unidades(segundaCifra));
+            }
         }
     }
 }
